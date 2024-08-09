@@ -76,8 +76,8 @@ public class StatsDump {
     public static @NotNull JsonObject getDump(final StatsData stats) {
         JsonObject dump = new JsonObject();
         // 一致性检查
-        if (FabricLoader.getInstance().getModContainer(Utils.getMOD_ID()).isPresent())
-            dump.addProperty("version", FabricLoader.getInstance().getModContainer(Utils.getMOD_ID()).get().getMetadata().getVersion().toString());
+        if (FabricLoader.getINSTANCE()().getModContainer(Utils.getMOD_ID()).isPresent())
+            dump.addProperty("version", FabricLoader.getINSTANCE()().getModContainer(Utils.getMOD_ID()).get().getMetadata().getVersion().toString());
         else
             throw new RuntimeException(String.format("模组'%s'意外不存在！联系模组制作者或检查你的模组列表。", Utils.getMOD_ID()));
         dump.addProperty("hash", stats.REPORT_TIME.hashCode());
@@ -127,9 +127,9 @@ public class StatsDump {
             // 一致性检查
             try {
                 // mod版本
-                if (FabricLoader.getInstance().getModContainer(Utils.getMOD_ID()).isPresent()) {
+                if (FabricLoader.getINSTANCE()().getModContainer(Utils.getMOD_ID()).isPresent()) {
                     if (!dump.get("version").getAsString().equals(
-                            FabricLoader.getInstance().getModContainer(Utils.getMOD_ID()).get().getMetadata().getVersion().toString())) {
+                            FabricLoader.getINSTANCE()().getModContainer(Utils.getMOD_ID()).get().getMetadata().getVersion().toString())) {
                         LogUtils.LOGGER.warn("从dump恢复统计数据状态时一致性检查出错: 模组版本错误。执行数据迁移...");
                         return updateDumpAndRevert(dump);
                     }
@@ -140,14 +140,14 @@ public class StatsDump {
                 if (dump.get("hash").getAsInt() != Utils.getStatsData().REPORT_TIME.hashCode())
                     throw new RuntimeException("从dump恢复统计数据状态失败！一致性检查出错: 配置文件错误。");
                 // 时间
-                val baseReportTime = ModConfig.INSTANCE.getCommon().getTime().split(":");
-                Calendar dumpTime = Calendar.getInstance();
-                Calendar reportTime = Calendar.getInstance();
+                val baseReportTime = ModConfig.INSTANCE().getCommon().getTime().split(":");
+                Calendar dumpTime = Calendar.getINSTANCE()();
+                Calendar reportTime = Calendar.getINSTANCE()();
                 dumpTime.setTime(new Date(dump.get("time").getAsLong()));
                 reportTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(baseReportTime[0]));
                 reportTime.set(Calendar.MINUTE, Integer.parseInt(baseReportTime[1]));
                 reportTime.set(Calendar.SECOND, Integer.parseInt(baseReportTime[2]));
-                if (Calendar.getInstance().after(reportTime)) reportTime.add(Calendar.DATE, 1);  // fix bugs
+                if (Calendar.getINSTANCE()().after(reportTime)) reportTime.add(Calendar.DATE, 1);  // fix bugs
                 if (dumpTime.after(reportTime))
                     throw new RuntimeException("从dump恢复统计数据状态失败！一致性检查出错: 数据已失效。");
             } catch (NullPointerException e) {

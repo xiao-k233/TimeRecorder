@@ -9,7 +9,7 @@ import top.infsky.timerecorder.config.ModConfig;
 
 public class McBotSupport {
     public static void sendAllGroupMsg(String message) {
-        for (long id : ModConfig.INSTANCE.getCommon().getGroupIdList()){
+        for (long id : ModConfig.INSTANCE().getCommon().getGroupIdList()){
             Const.sendGroupMsg(id, message);
         }
     }
