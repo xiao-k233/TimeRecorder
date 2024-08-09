@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import top.infsky.timerecorder.Utils;
 import top.infsky.timerecorder.compat.CarpetCompat;
-//import top.infsky.timerecorder.compat.VanishAPI;
+import top.infsky.timerecorder.compat.VanishAPI;
 import top.infsky.timerecorder.config.ModConfig;
 import top.infsky.timerecorder.log.LogUtils;
 import top.infsky.timerecorder.compat.McBotSupport;

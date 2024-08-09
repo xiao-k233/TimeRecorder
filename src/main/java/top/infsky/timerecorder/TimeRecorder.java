@@ -15,6 +15,8 @@ import top.infsky.timerecorder.data.StatsDump;
 import java.io.IOException;
 import java.nio.file.Files;
 
+import org.jcp.xml.dsig.internal.dom.Utils;
+
 public class TimeRecorder implements ModInitializer {
     @Override
     public void onInitialize() {
@@ -29,7 +31,7 @@ public class TimeRecorder implements ModInitializer {
     }
 
     public void init() {
-        Utils.CONFIG_FOLDER = FabricLoader.getINSTANCE().getConfigDir().resolve(Utils.MOD_ID);
+        Utils.CONFIG_FOLDER = FabricLoader.getInstance().getConfigDir().resolve(Utils.MOD_ID);
         if (!Utils.CONFIG_FOLDER.toFile().isDirectory()) {
             try {
                 Files.createDirectories(Utils.CONFIG_FOLDER);
@@ -43,11 +45,8 @@ public class TimeRecorder implements ModInitializer {
     }
 
     public void onServerStarted(MinecraftServer server) {
-        try {
-            ModConfig.load();
-        } catch (Exception e) {
-            Const.LOGGER.error("配置加载错误...");
-        }
+        ModConfig.load();
+        
         Utils.statsData = new StatsData();
 
         ServerTickEvents.END_SERVER_TICK.register(Utils.statsData::update);
