@@ -140,7 +140,7 @@ public class StatsDump {
                 if (dump.get("hash").getAsInt() != Utils.getStatsData().REPORT_TIME.hashCode())
                     throw new RuntimeException("从dump恢复统计数据状态失败！一致性检查出错: 配置文件错误。");
                 // 时间
-                val baseReportTime = ModConfig.INSTANCE.getCommon().getTime().split(":");
+                val baseReportTime = ModConfig.INSTANCE().getCommon().getTime().split(":");
                 Calendar dumpTime = Calendar.getInstance();
                 Calendar reportTime = Calendar.getInstance();
                 dumpTime.setTime(new Date(dump.get("time").getAsLong()));

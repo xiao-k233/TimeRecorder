@@ -15,7 +15,7 @@ import top.infsky.timerecorder.data.StatsDump;
 import java.io.IOException;
 import java.nio.file.Files;
 
-import org.jcp.xml.dsig.internal.dom.Utils;
+
 
 public class TimeRecorder implements ModInitializer {
     @Override
@@ -45,7 +45,7 @@ public class TimeRecorder implements ModInitializer {
     }
 
     public void onServerStarted(MinecraftServer server) {
-        ModConfig.load();
+        ModConfig.save();
         
         Utils.statsData = new StatsData();
 
