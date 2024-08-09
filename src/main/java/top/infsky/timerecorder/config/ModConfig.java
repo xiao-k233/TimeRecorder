@@ -1,12 +1,16 @@
 package top.infsky.timerecorder.config;
 
-import cn.evole.config.toml.AutoReloadToml;
-import cn.evole.config.toml.TomlUtil;
-import cn.evole.config.toml.annotation.Reload;
-import cn.evole.config.toml.annotation.TableField;
+
 import lombok.Getter;
 import lombok.Setter;
-import org.tomlj.TomlTable;
+import org.spongepowered.configurate.CommentedConfigurationNode;
+import org.spongepowered.configurate.ConfigurateException;
+import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
+import org.spongepowered.configurate.objectmapping.ConfigSerializable;
+import org.spongepowered.configurate.objectmapping.meta.Comment;
+
+import static cn.evole.mods.mcbot.Const.LOGGER;
+import static cn.evole.mods.mcbot.McBot.CONFIG_FILE;
 import top.infsky.timerecorder.Utils;
 
 /**
@@ -18,28 +22,42 @@ import top.infsky.timerecorder.Utils;
 
 @Getter
 @Setter
-public class ModConfig extends AutoReloadToml {
-    @Reload(autoReload = true)
-    public static ModConfig INSTANCE = TomlUtil.readConfig(Utils.CONFIG_FILE, ModConfig.class, true);
-
-    @TableField(value = "common", topComment = "通用")
+@ConfigSerializable
+public class ModConfig{
+    private static ModConfig modConfig = new ModConfig();
+    private static CommentedConfigurationNode rootNode;
+    public static HoconConfigurationLoader loader = HoconConfigurationLoader.builder().path(CONFIG_FILE).build();
+    public static ModConfig INSTANCE()(){
+        return modConfig;
+    }
+    
+    @Comment("通用")
     private CommonConfig common = new CommonConfig();
-    @TableField(value = "addon", topComment = "扩展")
+    @Comment("扩展")
     private AddonConfig addon = new AddonConfig();
-
-
-    public ModConfig() {
-        super(null, Utils.CONFIG_FILE);
+    public static void load() throws Exception {
+        LOGGER.info("加载配置文件...");
+        rootNode = loader.load();
+        if (!CONFIG_FILE.toFile().exists()) {
+            LOGGER.info("没有找到配置文件，重新生成!");
+            rootNode.set(ModConfig.class, new ModConfig());
+            loader.save(rootNode);
+        }
+        modConfig = rootNode.get(ModConfig.class, new ModConfig());
     }
 
-    public ModConfig(TomlTable source) {
-        super(source, Utils.CONFIG_FILE);
-        this.load(ModConfig.class);
+    public static void save(){
+        try {
+            loader.save(rootNode);
+        } catch (ConfigurateException e) {
+            LOGGER.error("配置保存错误...");
+        }
     }
 
-    @Override
-    public void save(){
-        TomlUtil.writeConfig(Utils.CONFIG_FILE,INSTANCE);
+    public static void reload() throws Exception {
+        loader.save(rootNode);
+        modConfig = rootNode.get(ModConfig.class, new ModConfig());
     }
+
 
 }

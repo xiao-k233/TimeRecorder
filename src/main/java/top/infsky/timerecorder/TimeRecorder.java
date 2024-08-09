@@ -29,13 +29,13 @@ public class TimeRecorder implements ModInitializer {
     }
 
     public void init() {
-        Utils.CONFIG_FOLDER = FabricLoader.getInstance().getConfigDir().resolve(Utils.MOD_ID);
+        Utils.CONFIG_FOLDER = FabricLoader.getINSTANCE()().getConfigDir().resolve(Utils.MOD_ID);
         if (!Utils.CONFIG_FOLDER.toFile().isDirectory()) {
             try {
                 Files.createDirectories(Utils.CONFIG_FOLDER);
             } catch (IOException ignored) {}
         }
-        Utils.CONFIG_FILE = Utils.CONFIG_FOLDER.resolve("config.toml");
+        Utils.CONFIG_FILE = Utils.CONFIG_FOLDER.resolve("config.hocon");
     }
 
     public void onServerStarting(MinecraftServer server) {
@@ -43,7 +43,11 @@ public class TimeRecorder implements ModInitializer {
     }
 
     public void onServerStarted(MinecraftServer server) {
-        ModConfig.INSTANCE.save();
+        try {
+            ModConfig.load();
+        } catch (Exception e) {
+            Const.LOGGER.error("配置加载错误...");
+        }
         Utils.statsData = new StatsData();
 
         ServerTickEvents.END_SERVER_TICK.register(Utils.statsData::update);
