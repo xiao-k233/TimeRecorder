@@ -1,10 +1,10 @@
 package top.infsky.timerecorder.config;
 
-
+import cn.evole.config.toml.AutoLoadTomlConfig;
+import cn.evole.config.toml.annotation.TableField;
 import lombok.Getter;
 import lombok.Setter;
-import org.spongepowered.configurate.objectmapping.ConfigSerializable;
-import org.spongepowered.configurate.objectmapping.meta.Comment;
+import org.tomlj.TomlTable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,21 +19,28 @@ import java.util.List;
 @Setter
 public class CommonConfig extends AutoLoadTomlConfig {
 
-    @Comment("允许定时输出统计数据")
+    @TableField(rightComment = "允许定时输出统计数据")
     private boolean allowAutoReport = true;
-    @Comment("统计数据输出时间(24小时制)")
+    @TableField(rightComment = "统计数据输出时间(24小时制)")
     private String time = "00:00:00";
-    @Comment("允许统计指令")
+    @TableField(rightComment = "允许统计指令")
     private boolean allowCommandStats = true;
-    @Comment("统计指令列表")
+    @TableField(rightComment = "统计指令列表")
     private List<String> commandStatsList = List.of("gamemode", "tp");
 
-    @Comment("开启Q群功能")
+    @TableField(rightComment = "开启Q群功能")
     private boolean groupOn = true;
-    @Comment("Q群列表")
+    @TableField(rightComment = "Q群列表")
     private List<Long> groupIdList = new ArrayList<>();  // 支持多个q群
 
+    public CommonConfig() {
+        super(null);
+    }
 
+    public CommonConfig(TomlTable source) {
+        super(source);
+        this.load(CommonConfig.class);
+    }
 
     public void removeGroupId(long id) {
         groupIdList.remove(id);

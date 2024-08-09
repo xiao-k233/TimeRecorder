@@ -27,6 +27,6 @@ public class ReloadCommand {
 
     public static void doReload() throws Exception {
         Utils.getStatsData().init();
-        ModConfig.save();
+        ModConfig.INSTANCE.save();
     }
 }

@@ -38,7 +38,7 @@ public class StatsObject {
     }
 
     private boolean disabled() {
-        return !ModConfig.INSTANCE().getAddon().isAllowOPActiveCount() && player.hasPermissions(2);
+        return !ModConfig.INSTANCE.getAddon().isAllowOPActiveCount() && player.hasPermissions(2);
     }
 
     public double getMoveDistance(ServerStatsCounter statsCounter) {

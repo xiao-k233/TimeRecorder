@@ -56,7 +56,7 @@ public class StatsData {
 
     public void init() {
         Reported = false;
-        val time = ModConfig.INSTANCE().getCommon().getTime().split(":");  // 00:00:00 24-hour
+        val time = ModConfig.INSTANCE.getCommon().getTime().split(":");  // 00:00:00 24-hour
         REPORT_TIME = LocalTime.of(Integer.parseInt(time[0]), Integer.parseInt(time[1]), Integer.parseInt(time[2]));
 
         if (LocalTime.now().isAfter(REPORT_TIME)) Reported = true;
@@ -71,11 +71,11 @@ public class StatsData {
     public void onEarlyChat(@NotNull ServerPlayer player, String rawMessage, CallbackInfo ci) {
         String message = rawMessage;
         // 屏蔽器
-        if (!ModConfig.INSTANCE().getAddon().isAllowFilter()) return;
-        if (ModConfig.INSTANCE().getAddon().isAllowOPBypassFilter() && player.hasPermissions(2)) return;
+        if (!ModConfig.INSTANCE.getAddon().isAllowFilter()) return;
+        if (ModConfig.INSTANCE.getAddon().isAllowOPBypassFilter() && player.hasPermissions(2)) return;
 
         boolean isFiltered = false;
-        for (String string : ModConfig.INSTANCE().getAddon().getFilterWords()) {
+        for (String string : ModConfig.INSTANCE.getAddon().getFilterWords()) {
             if (message.contains(string)) {
                 isFiltered = true;
                 message = message.replace(string, "*".repeat(string.length()));
@@ -112,7 +112,7 @@ public class StatsData {
         }
 
         // 早安
-        if (ModConfig.INSTANCE().getAddon().isAllowGoodMorning())
+        if (ModConfig.INSTANCE.getAddon().isAllowGoodMorning())
             try {
                 switch ((short) Objects.requireNonNull(Utils.getSERVER().getLevel(Level.OVERWORLD)).getDayTime()) {
                     case 1 -> McBotSupport.sendAllPlayerMsg("§b§l早安世界！新的一天开始了！");
@@ -125,7 +125,7 @@ public class StatsData {
 
 
         // 检查报告时间
-        if (ModConfig.INSTANCE().getCommon().isAllowAutoReport()) {
+        if (ModConfig.INSTANCE.getCommon().isAllowAutoReport()) {
             if (isReported()) {
                 if (LocalDate.now().isEqual(NextDay)) Reported = false;
             } else {

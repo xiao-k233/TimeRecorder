@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class VanishCompat {
-    public static final boolean VANISH = FabricLoader.getINSTANCE()().isModLoaded("melius-vanish");
+    public static final boolean VANISH = FabricLoader.getInstance().isModLoaded("melius-vanish");
 
     @Getter
     public static List<ServerPlayer> vanishedPlayers = new ArrayList<>();  // 维护一个列表，包含全部隐身的玩家

@@ -40,7 +40,7 @@ public class McStatsManager {
     public static long getBlockPlace(ServerStatsCounter stats) {
         long count = 0;
         for (Stat<Item> stat : Stats.ITEM_USED) {
-            if (stat.getValue() INSTANCE()of BlockItem)
+            if (stat.getValue() instanceof BlockItem)
                 count += stats.getValue(stat);
         }
         return count;

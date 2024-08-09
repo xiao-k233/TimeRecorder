@@ -114,7 +114,7 @@ public class PlayerData {
      * 该玩家发送了一条聊天
      */
     public void onChat(int messageId, String message) {
-        if (messageSent.size() > ModConfig.INSTANCE().getAddon().getMaxMessageHistory()) {
+        if (messageSent.size() > ModConfig.INSTANCE.getAddon().getMaxMessageHistory()) {
             messageSent.remove();
             onChat(messageId, message);
         } else {
@@ -127,11 +127,11 @@ public class PlayerData {
      */
     public float getActive() {
         return (float) (
-                statsObject.getMoveDistance(vanillaStats) * ModConfig.INSTANCE().getAddon().getMoveDistanceWeight() +
-                ((double) statsObject.getItemPick(vanillaStats)) * ModConfig.INSTANCE().getAddon().getItemPickWeight() +
-                ((double) statsObject.getBlockBreak(vanillaStats)) * ModConfig.INSTANCE().getAddon().getBlockBreakWeight() +
-                ((double) statsObject.getBlockPlace(vanillaStats)) * ModConfig.INSTANCE().getAddon().getBlockPlaceWeight() +
-                ((double) statsObject.getEntityKilled(vanillaStats)) * ModConfig.INSTANCE().getAddon().getEntityKilledWeight()
+                statsObject.getMoveDistance(vanillaStats) * ModConfig.INSTANCE.getAddon().getMoveDistanceWeight() +
+                ((double) statsObject.getItemPick(vanillaStats)) * ModConfig.INSTANCE.getAddon().getItemPickWeight() +
+                ((double) statsObject.getBlockBreak(vanillaStats)) * ModConfig.INSTANCE.getAddon().getBlockBreakWeight() +
+                ((double) statsObject.getBlockPlace(vanillaStats)) * ModConfig.INSTANCE.getAddon().getBlockPlaceWeight() +
+                ((double) statsObject.getEntityKilled(vanillaStats)) * ModConfig.INSTANCE.getAddon().getEntityKilledWeight()
         ) / playTime;
 
     }
