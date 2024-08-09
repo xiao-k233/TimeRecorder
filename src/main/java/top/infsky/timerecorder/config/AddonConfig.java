@@ -10,7 +10,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class AddonConfig extends AutoLoadTomlConfig {
+public class AddonConfig {
 
     @Comment("允许定时消息")
     private boolean allowGoodMorning = true;
