@@ -27,7 +27,7 @@ public class ModConfig{
     private static ModConfig modConfig = new ModConfig();
     private static CommentedConfigurationNode rootNode;
     public static HoconConfigurationLoader loader = HoconConfigurationLoader.builder().path(CONFIG_FILE).build();
-    public static ModConfig INSTANCE()(){
+    public static ModConfig INSTANCE(){
         return modConfig;
     }
     

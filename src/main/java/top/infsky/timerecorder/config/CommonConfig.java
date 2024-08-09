@@ -17,7 +17,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class CommonConfig extends AutoLoadTomlConfig {
+public class CommonConfig {
 
     @Comment("允许定时输出统计数据")
     private boolean allowAutoReport = true;

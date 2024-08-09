@@ -29,7 +29,7 @@ public class TimeRecorder implements ModInitializer {
     }
 
     public void init() {
-        Utils.CONFIG_FOLDER = FabricLoader.getINSTANCE()().getConfigDir().resolve(Utils.MOD_ID);
+        Utils.CONFIG_FOLDER = FabricLoader.getINSTANCE().getConfigDir().resolve(Utils.MOD_ID);
         if (!Utils.CONFIG_FOLDER.toFile().isDirectory()) {
             try {
                 Files.createDirectories(Utils.CONFIG_FOLDER);
